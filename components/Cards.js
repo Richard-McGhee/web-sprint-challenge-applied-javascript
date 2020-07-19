@@ -20,30 +20,78 @@
 // Add a listener for click events so that when a user clicks on a card, the headline of the article is logged to the console.
 //
 // Use your function to create a card for each of the articles, and append each card to the DOM.
-let cardDiv = document.createElement('div')
-cardDiv.classList.add('card')
 
-let headlineDiv = document.createElement('div')
-headlineDiv.classList.add('headline')
-headlineDiv.textContent = 'placeholder'
 
-let authorDiv = document.createElement('div')
-authorDiv.classList.add('author')
+// let cardDiv = document.createElement('div')
+// cardDiv.classList.add('card')
 
-let imgContainerDiv = document.createElement('div')
-imgContainerDiv.classList.add('img-container')
-let newCardImg = document.createElement('img')
-newCardImg.setAttribute('src', 'placeholder')
+// let headlineDiv = document.createElement('div')
+// headlineDiv.classList.add('headline')
+// headlineDiv.textContent = 'placeholder'
 
-let authorSpan = document.createElement('span')
+// let authorDiv = document.createElement('div')
+// authorDiv.classList.add('author')
 
-imgContainerDiv.appendChild(newCardImg)
-authorDiv.appendChild(imgContainerDiv)
-authorDiv.appendChild(authorSpan)
+// let imgContainerDiv = document.createElement('div')
+// imgContainerDiv.classList.add('img-container')
+// let newCardImg = document.createElement('img')
+// newCardImg.setAttribute('src', 'placeholder')
 
-cardDiv.appendChild(headlineDiv)
-cardDiv.appendChild(authorDiv)
+// let authorSpan = document.createElement('span')
+// authorSpan.textContent = 'placeholder'
 
-const logHeadline = e => {
-    console.log('placeholder')
+// imgContainerDiv.appendChild(newCardImg)
+// authorDiv.appendChild(imgContainerDiv)
+// authorDiv.appendChild(authorSpan)
+
+// cardDiv.appendChild(headlineDiv)
+// cardDiv.appendChild(authorDiv)
+
+let cardContainerDiv = document.querySelector('.cards-container')
+
+const getData = () => {
+    axios.get('https://lambda-times-backend.herokuapp.com/articles')
+    .then((res) => {
+        let articleData = Object.values(res.data.articles)
+        articleData.forEach((item) => {
+            item.forEach((subItem) => {
+                const logHeadline = e => {
+                    console.log(subItem.headline)
+                }
+
+                let cardDiv = document.createElement('div')
+                cardDiv.classList.add('card')
+
+                let headlineDiv = document.createElement('div')
+                headlineDiv.classList.add('headline')
+                headlineDiv.textContent = subItem.headline
+
+                let authorDiv = document.createElement('div')
+                authorDiv.classList.add('author')
+
+                let imgContainerDiv = document.createElement('div')
+                imgContainerDiv.classList.add('img-container')
+                let newCardImg = document.createElement('img')
+                newCardImg.setAttribute('src', `${subItem.authorPhoto}`)
+
+                let authorSpan = document.createElement('span')
+                authorSpan.textContent = subItem.authorName
+
+                imgContainerDiv.appendChild(newCardImg)
+                authorDiv.appendChild(imgContainerDiv)
+                authorDiv.appendChild(authorSpan)
+
+                cardDiv.appendChild(headlineDiv)
+                cardDiv.appendChild(authorDiv)
+                cardDiv.addEventListener('click', logHeadline)
+
+                cardContainerDiv.appendChild(cardDiv)
+            })
+        })
+        console.log(articleData)
+    })
+    .catch((err) => {
+        console.dir(err)
+    })
 }
+getData()
