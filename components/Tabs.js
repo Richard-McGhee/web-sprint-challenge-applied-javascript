@@ -12,9 +12,21 @@
 
 let topicsDiv = document.querySelector('.topics')
 
-const topiscData = ['placeholder']
+let topiscData = ['placeholder']
+const getData = () => {
+    axios.get('https://lambda-times-backend.herokuapp.com/topics')
+    .then((res) => {
+        topiscData = res.data.topics
+        console.log(topiscData)
+    })
+    .catch((err) => {
+        console.dir(err)
+    })
+}
 
-topiscData.forEach(function(item){
+getData()
+
+topiscData.forEach((item) => {
     let newTabDiv = document.createElement('div')
     newTabDiv.textContent = item
     topicsDiv.appendChild(newTabDiv)
