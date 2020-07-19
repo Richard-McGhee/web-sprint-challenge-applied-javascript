@@ -12,12 +12,16 @@
 
 let topicsDiv = document.querySelector('.topics')
 
-let topiscData = ['placeholder']
 const getData = () => {
     axios.get('https://lambda-times-backend.herokuapp.com/topics')
     .then((res) => {
-        topiscData = res.data.topics
-        console.log(topiscData)
+        res.data.topics.forEach((item) => {
+            let newTabDiv = document.createElement('div')
+            newTabDiv.classList.add('tab')
+            newTabDiv.textContent = item
+            topicsDiv.appendChild(newTabDiv)
+        })
+        // console.log(res.data.topics)
     })
     .catch((err) => {
         console.dir(err)
@@ -26,8 +30,3 @@ const getData = () => {
 
 getData()
 
-topiscData.forEach((item) => {
-    let newTabDiv = document.createElement('div')
-    newTabDiv.textContent = item
-    topicsDiv.appendChild(newTabDiv)
-})
