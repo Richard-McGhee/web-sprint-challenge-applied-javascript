@@ -10,4 +10,12 @@
 //
 // NOTE: you do _not_ need to install axios as it's included in the HTML via script element
 
-const topicData = 'placeholder'
+let topicsDiv = document.querySelector('.topics')
+
+const topiscData = ['placeholder']
+
+topiscData.forEach(function(item){
+    let newTabDiv = document.createElement('div')
+    newTabDiv.textContent = item
+    topicsDiv.appendChild(newTabDiv)
+})
